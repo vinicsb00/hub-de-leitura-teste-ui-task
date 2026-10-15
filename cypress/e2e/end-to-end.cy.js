@@ -30,6 +30,8 @@ describe('Testes End To End do fluxo de cadastro e login', () => {
         // Usa o nome e sobrenome no email e deixa tudo minusculo
         const name = faker.person.firstName('female')
         const lastName = faker.person.lastName()
+        const nomeCompleto = `${name} ${lastName}`
+        
         const email = faker.internet.email({
             firstName: name,
             lastName: lastName
@@ -41,20 +43,12 @@ describe('Testes End To End do fluxo de cadastro e login', () => {
         })
 
         // Faz o Cadastro e valida
-        cy.get('#name').type(`${name} ${lastName}`)
-        cy.get('#email').type(email)
-        cy.get('#phone').type(phone)
-        cy.get('#password').type(password)
-        cy.get('#confirm-password').type(password)
-        cy.get('#terms-agreement').click()
-        cy.get('#register-btn').click()
-        cy.url().should('include', '/dashboard.html')
+         cy.cadastrar(nomeCompleto, email, phone, password)
+
         // Faz o logout 
         cy.get('.user-actions > .btn-outline-danger > .fas').click()
+
         // Faz o login com os dados cadastrados e valida
-        cy.get('#email').type(email)
-        cy.get('#password').type(password)
-        cy.get('#login-btn').click()
-        cy.url().should('include', '/dashboard.html')
+        cy.login(email, password)
     });
 });

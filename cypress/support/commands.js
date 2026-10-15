@@ -24,10 +24,23 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-Cypress.Commands.add('login', (email, senha) => { 
-    cy.get('#email').type(email, {log: false})
-    cy.get('#password').type(senha, {log: false})
-    cy.get('#login-btn').click()
-    cy.url().should('include', 'dashboard')
- })
+Cypress.Commands.add('cadastrar', (nomeCompleto, email, phone, senha) => {
 
+    cy.get('#name').type(nomeCompleto)
+    cy.get('#email').type(email)
+    cy.get('#phone').type(phone)
+    cy.get('#password').type(senha)
+    cy.get('#confirm-password').type(senha)
+    cy.get('#terms-agreement').click()
+    cy.get('#register-btn').click()
+
+    cy.url().should('include', '/dashboard.html')
+})
+
+Cypress.Commands.add('login', (email, senha) => {
+    cy.get('#email').type(email, { log: false })
+    cy.get('#password').type(senha, { log: false })
+    cy.get('#login-btn').click()
+
+    cy.url().should('include', 'dashboard')
+})
